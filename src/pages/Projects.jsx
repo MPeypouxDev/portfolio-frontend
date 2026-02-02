@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { projectService } from '../services/projectService'
 
 function Projects() {
@@ -71,12 +72,12 @@ function Projects() {
                     </span>
                   ))}
                 </div>
-                <a
-                  href={`/projects/${project.id}`}
+                <Link
+                  to={`/projects/${project.id}`}
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Voir le projet →
-                </a>
+                </Link>
               </div>
             </div>
           ))}
