@@ -50,7 +50,6 @@ function Home() {
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            {/* Card 1 */}
             <div className="
               text-center rounded-xl p-8
               bg-gradient-to-b from-gray-900/80 to-gray-950
@@ -63,7 +62,6 @@ function Home() {
               <div className="text-gray-400">Projets réalisés</div>
             </div>
 
-            {/* Card 2 */}
             <div className="
               text-center rounded-xl p-8
               bg-gradient-to-b from-gray-900/80 to-gray-950
@@ -76,7 +74,6 @@ function Home() {
               <div className="text-gray-400">Technologies maîtrisées</div>
             </div>
 
-            {/* Card 3 */}
             <div className="
               text-center rounded-xl p-8
               bg-gradient-to-b from-gray-900/80 to-gray-950
