@@ -27,56 +27,85 @@ function Projects() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-xl text-gray-600">Chargement des projets...</p>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-xl text-gray-400">Chargement des projets…</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <p className="text-xl text-red-600">{error}</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-black py-20">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Mes Projets</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h1 className="text-4xl font-bold text-white mb-12">
+          Mes Projets
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
+              className="
+                group rounded-xl overflow-hidden
+                bg-gradient-to-b from-gray-900/80 to-gray-950
+                border border-gray-800
+                shadow-lg shadow-black/40
+                hover:shadow-xl hover:shadow-indigo-500/10
+                hover:-translate-y-1
+                transition-all duration-300
+              "
             >
-              <div className="h-48 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-400">Image du projet</span>
+              <div className="
+                h-48 bg-gray-900
+                flex items-center justify-center
+                border-b border-gray-800
+                text-gray-500 text-sm
+              ">
+                Image du projet
               </div>
+
               <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                <h2 className="text-xl font-semibold text-white mb-2">
                   {project.title}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
+
+                <p className="text-gray-400 mb-4 line-clamp-3">
                   {project.description}
                 </p>
-                <div className="flex gap-2 flex-wrap mb-4">
+
+                <div className="flex flex-wrap gap-2 mb-6">
                   {project.technologies?.map((tech) => (
                     <span
                       key={tech.id}
-                      className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                      className="
+                        text-xs px-2.5 py-1 rounded-full
+                        bg-gray-800 text-gray-300
+                        border border-gray-700
+                      "
                     >
                       {tech.name}
                     </span>
                   ))}
                 </div>
+
                 <Link
                   to={`/projects/${project.id}`}
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="
+                    inline-flex items-center gap-1
+                    text-indigo-400 font-medium
+                    group-hover:text-indigo-300
+                    transition
+                  "
                 >
-                  Voir le projet →
+                  Voir le projet
+                  <span className="transition group-hover:translate-x-1">→</span>
                 </Link>
               </div>
             </div>
