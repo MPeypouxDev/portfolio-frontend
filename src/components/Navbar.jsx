@@ -14,55 +14,40 @@ function Navbar() {
     }
     
     window.addEventListener('scroll', handleScroll)
-    
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled  
-        ? 'bg-transparent'
-        : 'bg-white shadow-md'
+      isScrolled 
+        ? 'bg-black shadow-lg' 
+        : 'bg-black/80 backdrop-blur-sm'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link 
             to="/" 
-            className={`text-xl font-bold transition-colors ${
-              isScrolled ? 'text-gray-900' : 'text-gray-900'
-            }`}
+            className="text-xl font-bold text-white hover:text-gray-300 transition"
           >
             Mathys Peypoux
           </Link>
 
-          <div className="flex gap-6">
+          <div className="flex gap-8">
             <Link
               to="/"
-              className={`transition-colors ${
-                isScrolled 
-                  ? 'text-gray-700 hover:text-blue-600' 
-                  : 'text-gray-700 hover:text-blue-600'
-              }`}
+              className="text-white hover:text-gray-400 transition font-medium"
             >
               Accueil
             </Link>
             <Link
               to="/projects"
-              className={`transition-colors ${
-                isScrolled 
-                  ? 'text-gray-700 hover:text-blue-600' 
-                  : 'text-gray-700 hover:text-blue-600'
-              }`}
+              className="text-white hover:text-gray-400 transition font-medium"
             >
               Projets
             </Link>
             <Link
               to="/contact"
-              className={`transition-colors ${
-                isScrolled 
-                  ? 'text-gray-700 hover:text-blue-600' 
-                  : 'text-gray-700 hover:text-blue-600'
-              }`}
+              className="text-white hover:text-gray-400 transition font-medium"
             >
               Contact
             </Link>
