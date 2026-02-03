@@ -49,21 +49,50 @@ function Home() {
       <section className="border-t border-gray-900">
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
+
+            {/* Card 1 */}
+            <div className="
+              text-center rounded-xl p-8
+              bg-gradient-to-b from-gray-900/80 to-gray-950
+              border border-gray-800
+              shadow-lg shadow-black/40
+              hover:shadow-xl hover:shadow-indigo-500/10
+              transition-all duration-300
+            ">
               <div className="text-5xl font-bold text-white mb-2">7+</div>
               <div className="text-gray-400">Projets réalisés</div>
             </div>
-            <div className="text-center">
+
+            {/* Card 2 */}
+            <div className="
+              text-center rounded-xl p-8
+              bg-gradient-to-b from-gray-900/80 to-gray-950
+              border border-gray-800
+              shadow-lg shadow-black/40
+              hover:shadow-xl hover:shadow-indigo-500/10
+              transition-all duration-300
+            ">
               <div className="text-5xl font-bold text-white mb-2">3+</div>
               <div className="text-gray-400">Technologies maîtrisées</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-white mb-2">Loading...</div>
-              <div className="text-gray-400">Still coding wait...</div>
+
+            {/* Card 3 */}
+            <div className="
+              text-center rounded-xl p-8
+              bg-gradient-to-b from-gray-900/80 to-gray-950
+              border border-gray-800
+              shadow-lg shadow-black/40
+              hover:shadow-xl hover:shadow-indigo-500/10
+              transition-all duration-300
+            ">
+              <div className="text-5xl font-bold text-white mb-2">Loading…</div>
+              <div className="text-gray-400">Still coding wait…</div>
             </div>
+
           </div>
         </div>
       </section>
+
 
       <TechnologiesSection />
     </div>
