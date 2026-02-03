@@ -22,7 +22,7 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     try {
       setLoading(true)
       setError(null)
@@ -36,7 +36,7 @@ function Contact() {
         messages: '',
       })
     } catch (err) {
-      setError('Erreur lors de l\'envoi du message')
+      setError("Erreur lors de l'envoi du message")
       console.error(err)
     } finally {
       setLoading(false)
@@ -44,26 +44,44 @@ function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
+    <div className="min-h-screen bg-black py-20">
       <div className="container mx-auto px-4 max-w-2xl">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Me Contacter</h1>
-        
+        <h1 className="text-4xl font-bold text-white mb-12">
+          Me contacter
+        </h1>
+
         {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-            Message envoyé avec succès ! Je vous répondrai rapidement.
+          <div className="
+            mb-6 rounded-lg px-4 py-3
+            bg-emerald-500/10 border border-emerald-500/30
+            text-emerald-400
+          ">
+            Message envoyé avec succès. Je vous répondrai rapidement.
           </div>
         )}
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="
+            mb-6 rounded-lg px-4 py-3
+            bg-red-500/10 border border-red-500/30
+            text-red-400
+          ">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <form
+          onSubmit={handleSubmit}
+          className="
+            rounded-xl p-8
+            bg-gradient-to-b from-gray-900/80 to-gray-950
+            border border-gray-800
+            shadow-lg shadow-black/40
+          "
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="block text-sm font-medium text-gray-400 mb-2">
                 Prénom *
               </label>
               <input
@@ -72,11 +90,20 @@ function Contact() {
                 value={formData.first_name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="
+                  w-full rounded-lg px-4 py-2.5
+                  bg-gray-900 text-gray-200
+                  border border-gray-800
+                  placeholder-gray-600
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                  focus:border-indigo-500
+                  transition
+                "
               />
             </div>
+
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="block text-sm font-medium text-gray-400 mb-2">
                 Nom *
               </label>
               <input
@@ -85,13 +112,21 @@ function Contact() {
                 value={formData.last_name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="
+                  w-full rounded-lg px-4 py-2.5
+                  bg-gray-900 text-gray-200
+                  border border-gray-800
+                  placeholder-gray-600
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                  focus:border-indigo-500
+                  transition
+                "
               />
             </div>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-400 mb-2">
               Email *
             </label>
             <input
@@ -100,12 +135,19 @@ function Contact() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="
+                w-full rounded-lg px-4 py-2.5
+                bg-gray-900 text-gray-200
+                border border-gray-800
+                focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                focus:border-indigo-500
+                transition
+              "
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-400 mb-2">
               Téléphone
             </label>
             <input
@@ -113,12 +155,19 @@ function Contact() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="
+                w-full rounded-lg px-4 py-2.5
+                bg-gray-900 text-gray-200
+                border border-gray-800
+                focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                focus:border-indigo-500
+                transition
+              "
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-gray-400 mb-2">
               Message *
             </label>
             <textarea
@@ -127,16 +176,30 @@ function Contact() {
               onChange={handleChange}
               required
               rows="6"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="
+                w-full rounded-lg px-4 py-3
+                bg-gray-900 text-gray-200
+                border border-gray-800
+                focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                focus:border-indigo-500
+                transition
+              "
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="
+              w-full py-3 rounded-lg font-medium
+              bg-indigo-600 text-white
+              hover:bg-indigo-500
+              shadow-lg shadow-indigo-600/20
+              transition
+              disabled:opacity-50 disabled:cursor-not-allowed
+            "
           >
-            {loading ? 'Envoi en cours...' : 'Envoyer le message'}
+            {loading ? 'Envoi en cours…' : 'Envoyer le message'}
           </button>
         </form>
       </div>
