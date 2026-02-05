@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { projectService } from '../services/projectService'
+import useInView from '../hooks/useInView'
 
 function Projects() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [projectRef, projectInView ] = useInView()
 
   useEffect(() => {
     loadProjects()
@@ -42,7 +44,7 @@ function Projects() {
   }
 
   return (
-    <div className="min-h-screen bg-black py-20">
+    <div ref={projectRef} className={`min-h-screen bg-black py-20 transition-all duration-700 ${projectInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-white mb-12">
           Mes Projets

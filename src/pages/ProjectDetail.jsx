@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { projectService } from '../services/projectService'
+import useInView from '../hooks/useInView'
 
 function ProjectDetail() {
   const { id } = useParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [projectDetailRef, ProjectDetailInView] = useInView()
 
   useEffect(() => {
     const loadProject = async () => {
@@ -51,7 +53,7 @@ function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-black py-20">
+    <div ref={projectDetailRef} className={`min-h-screen bg-black py-20 transition-all duration-700 ${ProjectDetailInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           to="/projects"

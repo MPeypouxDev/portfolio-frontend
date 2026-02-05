@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { technologyService } from '../services/technologyService'
 import TechIcon from './TechIcon'
+import useInView from '../hooks/useInView'
 
 function TechnologiesSection() {
     const [technologies, setTechnologies] = useState([])
@@ -18,6 +19,8 @@ function TechnologiesSection() {
         }
     }
 
+    const [ref, isInView] = useInView()
+
     useEffect(() => {
         loadTechnologies()
     }, [])
@@ -31,7 +34,7 @@ function TechnologiesSection() {
     }
 
     return (
-    <section className="border-t border-gray-900 py-20">
+    <section ref={ref} className={`border-t border-gray-900 py-20 transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-white mb-4">
             Technologies Utilisées

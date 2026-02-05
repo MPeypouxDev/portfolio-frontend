@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 import TechnologiesSection from '../components/TechnologiesSection'
+import useInView from '../hooks/useInView'
 
 function Home() {
+  const [homeRef, homeInView] = useInView()
+  const [statsRef, statsInView] = useInView()
+
   return (
     <div className="min-h-screen bg-black">
-      <section className="container mx-auto px-4 py-32 md:py-48">
+      <section ref={homeRef} className={`container mx-auto px-4 py-32 md:py-48 transition-all duration-1000 ${homeInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block mb-6">
             <span className="border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm">
@@ -46,7 +50,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-t border-gray-900">
+      <section ref={statsRef} className={`border-t border-gray-900 transition-all duration-700 ${statsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
