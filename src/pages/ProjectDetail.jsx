@@ -8,7 +8,7 @@ function ProjectDetail() {
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [projectDetailRef, ProjectDetailInView] = useInView()
+  const [ref, _, animationClass] = useInView()
 
   useEffect(() => {
     const loadProject = async () => {
@@ -53,7 +53,7 @@ function ProjectDetail() {
   }
 
   return (
-    <div ref={projectDetailRef} className={`min-h-screen bg-black py-20 transition-all duration-700 ${ProjectDetailInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <div ref={ref} className={`min-h-screen bg-black py-20 transition-all duration-700 ${animationClass}`}>
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           to="/projects"

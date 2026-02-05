@@ -5,22 +5,28 @@ function useInView(options = {}) {
     const ref = useRef(null)
 
     useEffect(() => {
+        const currentRef = ref.current
         const observer = new IntersectionObserver(([entry]) => {
+            console.log("Home section visible:", entry.isIntersecting);
             setIsInView(entry.isIntersecting)
         }, options)
 
-        if (ref.current) {
-            observer.observe(ref.current)
+        if (currentRef) {
+            observer.observe(currentRef)
         }
 
         return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current)
+            if (currentRef) {
+                observer.unobserve(currentRef)
             }
         }
     }, [options])
 
-    return [ref, isInView]
+    const animationClass = isInView
+        ? 'opacity-100 translate-y-0'
+        : 'opacity-0 translate-y-10'
+
+    return [ref, isInView, animationClass]
 }
 
 export default useInView

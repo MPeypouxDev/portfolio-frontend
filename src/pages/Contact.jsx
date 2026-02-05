@@ -13,7 +13,7 @@ function Contact() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(null)
-  const [contactRef, contactInView] = useInView()
+  const [ref, _, animationClass] = useInView()
 
   const handleChange = (e) => {
     setFormData({
@@ -46,7 +46,7 @@ function Contact() {
   }
 
   return (
-    <div ref={contactRef} className={`min-h-screen bg-black py-20 transition-all duration-700 ${contactInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <div ref={ref} className={`min-h-screen bg-black py-20 transition-all duration-700 ${animationClass}`}>
       <div className="container mx-auto px-4 max-w-2xl">
         <h1 className="text-4xl font-bold text-white mb-12">
           Me contacter
