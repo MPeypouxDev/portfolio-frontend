@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const location = useLocation()
   
   useEffect(() => {
     const handleScroll = () => {
@@ -45,19 +46,31 @@ function Navbar() {
           <div className="hidden md:flex gap-8">
             <Link
               to="/"
-              className="text-white hover:text-gray-400 transition font-medium"
+              className={`transition font-medium ${
+                location.pathname === '/' 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
               Accueil
             </Link>
             <Link
               to="/projects"
-              className="text-white hover:text-gray-400 transition font-medium"
+              className={`transition font-medium ${
+                location.pathname.startsWith('/projects') 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
               Projets
             </Link>
             <Link
               to="/contact"
-              className="text-white hover:text-gray-400 transition font-medium"
+              className={`transition font-medium ${
+                location.pathname === '/contact' 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
               Contact
             </Link>
@@ -69,21 +82,33 @@ function Navbar() {
         <div className="flex flex-col py-4 space-y-2">
             <Link
               to="/"
-              className="block px-4 py-3 text-white hover:bg-gray-900 transition"
+              className={`block px-4 py-3 transition ${
+                location.pathname === '/' 
+                  ? 'text-white bg-gray-900' 
+                  : 'text-gray-400 hover:bg-gray-900 hover:text-white'
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Accueil
             </Link>
             <Link
               to="/projects"
-              className="block px-4 py-3 text-white hover:bg-gray-900 transition"
+              className={`block px-4 py-3 transition ${
+                location.pathname.startsWith('/projects') 
+                  ? 'text-white bg-gray-900' 
+                  : 'text-gray-400 hover:bg-gray-900 hover:text-white'
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Projets
             </Link>
             <Link
               to="/contact"
-              className="block px-4 py-3 text-white hover:bg-gray-900 transition"
+              className={`block px-4 py-3 transition ${
+                location.pathname === '/contact' 
+                  ? 'text-white bg-gray-900' 
+                  : 'text-gray-400 hover:bg-gray-900 hover:text-white'
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
