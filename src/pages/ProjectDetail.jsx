@@ -222,9 +222,11 @@ function ProjectDetail() {
                       flex items-center justify-center
                     "
                   >
-                    <span className="text-gray-500 text-sm">
-                      {image.name || 'Image du projet'}
-                    </span>
+                    <img
+                      src={`http://localhost:8000/storage/${image.path}`} 
+                      alt={image.alt_text || project.title}
+                      className="w-full h-full object-cover" 
+                    />
                   </div>
                 ))}
               </div>

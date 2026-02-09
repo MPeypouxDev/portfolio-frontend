@@ -84,13 +84,18 @@ function Projects() {
                   transition-all duration-300
                 "
               >
-                <div className="
-                  h-48 bg-gray-900
-                  flex items-center justify-center
-                  border-b border-gray-800
-                  text-gray-500 text-sm
-                ">
-                  Image du projet
+                <div className="h-48 bg-gray-900 border-b border-gray-800 overflow-hidden">
+                  {project.images && project.images.length > 0 ? (
+                    <img 
+                      src={`http://localhost:8000/storage/${project.images[0].path}`}
+                      alt={project.images[0].alt_text || project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="h-full flex items-center justify-center text-gray-500 text-sm">
+                      Pas d'image
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6">
