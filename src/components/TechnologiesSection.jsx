@@ -48,7 +48,7 @@ function TechnologiesSection() {
                 key={tech.id}
                 className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:bg-gray-800 hover:border-gray-700 transition text-center group"
             >
-                <div className="mb-4 flex justify-center">
+                <div className="h-12 w-12 mb-4 mx-auto flex items-center justify-center">
                     <TechIcon
                         iconPath={tech.icon}
                         color={tech.color}

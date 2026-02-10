@@ -24,7 +24,7 @@ function TechIcon({ iconPath, color }) {
 
     return (
         <div
-            className="w-12 h-12 flex items-center justify-center"
+            className="w-full h-full flex items-center justify-center"
             dangerouslySetInnerHTML={{ __html: svgContent }}
         />
     )
