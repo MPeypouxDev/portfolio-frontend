@@ -49,7 +49,7 @@ function Contact() {
   return (
     <>
     <SEO title="Me Contacter | Mathys Peypoux" />
-      <div ref={ref} className={`min-h-screen bg-black py-20 transition-all duration-700 ${animationClass}`}>
+      <div ref={ref} className={`min-h-screen py-20 transition-all duration-700 ${animationClass}`}>
         <div className="container mx-auto px-4 max-w-2xl">
           <h1 className="text-4xl font-bold text-white mb-12">
             Me contacter

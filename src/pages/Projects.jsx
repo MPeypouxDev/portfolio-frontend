@@ -58,7 +58,7 @@ function Projects() {
     return (
       <>
         <SEO title="Mes Projets | Mathys Peypoux" />
-        <div className="min-h-screen bg-black py-20">
+        <div className="min-h-screen py-20">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-white mb-12">
               Mes Projets
@@ -79,7 +79,7 @@ function Projects() {
     return (
       <>
         <SEO title="Erreur | Mathys Peypoux" />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-xl text-red-500 mb-4">{error}</p>
             <button
@@ -97,7 +97,7 @@ function Projects() {
   return (
     <>
       <SEO title="Mes projets | Mathys Peypoux" />
-      <div ref={ref} className={`min-h-screen bg-black py-20 transition-all duration-700 ${animationClass}`}>
+      <div ref={ref} className={`min-h-screen py-20 transition-all duration-700 ${animationClass}`}>
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-white mb-12">
             Mes Projets

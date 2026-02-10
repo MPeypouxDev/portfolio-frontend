@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 
 function NotFound() {
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4">
             <div className="relative max-w-4xl w-full">
                 <img src={searching}
                     alt="404_page"

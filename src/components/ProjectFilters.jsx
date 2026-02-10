@@ -1,10 +1,44 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import TechIcon from './TechIcon'
+
+function useMediaQuery(query) {
+  const getMatches = () => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia(query).matches
+  }
+
+  const [matches, setMatches] = useState(getMatches)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const media = window.matchMedia(query)
+    const onChange = () => setMatches(media.matches)
+
+    if (media.addEventListener) {
+      media.addEventListener('change', onChange)
+    } else {
+      media.addListener(onChange)
+    }
+
+    return () => {
+      if (media.removeEventListener) {
+        media.removeEventListener('change', onChange)
+      } else {
+        media.removeListener(onChange)
+      }
+    }
+  }, [query])
+
+  return matches
+}
 
 function ProjectFilters({ technologies, onFilterChange }) {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedTechnology, setSelectedTechnology] = useState(null)
   const [showAllTech, setShowAllTech] = useState(false)
+
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   const categories = [
     { id: null, label: 'Tous' },
@@ -12,6 +46,15 @@ function ProjectFilters({ technologies, onFilterChange }) {
     { id: 'fullstack', label: 'Fullstack' },
     { id: 'backend', label: 'Backend' },
   ]
+
+  const techList = useMemo(() => technologies ?? [], [technologies])
+
+  const TECH_LIMIT_MOBILE = 8
+  const TECH_LIMIT_DESKTOP = 14
+  const techLimit = isDesktop ? TECH_LIMIT_DESKTOP : TECH_LIMIT_MOBILE
+
+  const visibleTechnologies = showAllTech ? techList : techList.slice(0, techLimit)
+  const hasMoreTech = techList.length > techLimit
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId)
@@ -25,93 +68,120 @@ function ProjectFilters({ technologies, onFilterChange }) {
     onFilterChange({ category: selectedCategory, technology: nextTechnology })
   }
 
-  const TECH_LIMIT = 4
-  const techList = technologies ?? []
-  const visibleTechnologies = showAllTech ? techList : techList.slice(0, TECH_LIMIT)
-  const hasMoreTech = techList.length > TECH_LIMIT
+  const resetFilters = () => {
+    setSelectedCategory(null)
+    setSelectedTechnology(null)
+    setShowAllTech(false)
+    onFilterChange({ category: null, technology: null })
+  }
 
   return (
     <section className="mb-12">
-      <div className="rounded-2xl border border-gray-800 bg-gray-950/40 p-6 md:p-8 space-y-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <aside className="lg:col-span-4 lg:sticky lg:top-24 self-start">
-            <h3 className="text-lg font-semibold text-white mb-4">Catégories</h3>
+      <div className="rounded-2xl border border-gray-800 bg-gray-950/40 p-6 md:p-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">Filtrer</h2>
+            <p className="mt-1 text-gray-400 text-sm">
+              Affinez les projets par catégorie ou technologie
+            </p>
+          </div>
 
-            <div className="flex flex-wrap gap-3">
-              {categories.map((category) => (
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="self-start md:self-auto text-sm text-gray-400 hover:text-white transition underline underline-offset-4"
+          >
+            Réinitialiser
+          </button>
+        </div>
+
+        <div className="mt-8">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h3 className="text-lg font-semibold text-white">Catégories</h3>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => {
+              const isActive = selectedCategory === category.id
+              return (
                 <button
                   key={category.id ?? 'all'}
                   type="button"
                   onClick={() => handleCategoryChange(category.id)}
                   className={`
-                    px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm
+                    px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
                     ${
-                      selectedCategory === category.id
-                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50'
-                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      isActive
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
+                        : 'bg-gray-900/60 text-gray-300 border border-gray-800 hover:bg-gray-900 hover:border-gray-700'
                     }
                   `}
                 >
                   {category.label}
                 </button>
-              ))}
-            </div>
+              )
+            })}
+          </div>
+        </div>
 
-            <div className="mt-6">
+        <div className="mt-10 h-px bg-gray-900" />
+
+        <div className="mt-10">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h3 className="text-lg font-semibold text-white">Technologies</h3>
+
+            {hasMoreTech && (
               <button
                 type="button"
-                onClick={() => {
-                  setSelectedCategory(null)
-                  setSelectedTechnology(null)
-                  onFilterChange({ category: null, technology: null })
-                }}
-                className="text-sm text-gray-400 hover:text-white transition underline underline-offset-4"
+                onClick={() => setShowAllTech((v) => !v)}
+                className="text-sm text-gray-400 hover:text-white transition border border-gray-800 rounded-lg px-3 py-2 hover:bg-gray-900/40"
               >
-                Réinitialiser les filtres
+                {showAllTech ? 'Voir moins' : 'Voir plus'}
               </button>
-            </div>
-          </aside>
+            )}
+          </div>
 
-          <div className="lg:col-span-8">
-            <div className="flex items-end justify-between gap-4 mb-4">
-              <h3 className="text-lg font-semibold text-white">Technologies</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {visibleTechnologies.map((tech) => {
+              const isActive = selectedTechnology === tech.id
 
-              {hasMoreTech && (
-                <button
-                  type="button"
-                  onClick={() => setShowAllTech((v) => !v)}
-                  className="text-sm text-gray-400 hover:text-white transition"
-                >
-                  {showAllTech ? 'Voir moins' : 'Voir plus'}
-                </button>
-              )}
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {visibleTechnologies.map((tech) => (
+              return (
                 <button
                   key={tech.id}
                   type="button"
                   onClick={() => handleTechnologyToggle(tech.id)}
                   className={`
-                    flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200
+                    group relative rounded-xl border p-4 text-left transition-all duration-200
+                    bg-gray-950/30
                     ${
-                      selectedTechnology === tech.id
-                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50'
-                        : 'border border-gray-800 text-gray-300 hover:bg-gray-700 hover:border-gray-700'
+                      isActive
+                        ? 'border-indigo-500/60 shadow-lg shadow-indigo-500/20'
+                        : 'border-gray-800 hover:border-gray-700 hover:bg-gray-950/50'
                     }
+                    hover:-translate-y-0.5
                   `}
+                  style={{
+                    boxShadow: isActive ? `0 0 0 1px ${tech.color}40` : undefined,
+                  }}
                 >
-                  <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center">
-                    <TechIcon iconPath={tech.icon} color={tech.color} name={tech.name} />
-                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 flex items-center justify-center">
+                      <TechIcon iconPath={tech.icon} color={tech.color} name={tech.name} />
+                    </div>
 
-                  <span className="text-sm font-medium whitespace-nowrap">
-                    {tech.name}
-                  </span>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-white truncate">
+                        {tech.name}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        Cliquer pour filtrer
+                      </div>
+                    </div>
+                  </div>
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
         </div>
       </div>

@@ -101,7 +101,7 @@ function About() {
         description="À propos de Mathys Peypoux : parcours, formations et compétences."
       />
 
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen">
         <section
           ref={heroRef}
           className={`container mx-auto px-4 pt-28 pb-16 md:pt-36 md:pb-24 transition-all duration-1000 ${heroAnim}`}

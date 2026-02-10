@@ -33,7 +33,7 @@ function ProjectDetail() {
     return (
       <>
       <SEO title="Detail Projet | Mathys Peypoux" />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <p className="text-xl text-gray-400">Chargement du projet…</p>
         </div>
       </>
@@ -44,7 +44,7 @@ function ProjectDetail() {
     return (
       <>
       <SEO title="Erreur | Mathys Peypoux" />
-        <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-xl text-red-400 mb-4">{error}</p>
             <Link
@@ -62,7 +62,7 @@ function ProjectDetail() {
   return (
     <>
     <SEO title="Detail Projet | Mathys Peypoux" />
-      <div ref={ref} className={`min-h-screen bg-black py-20 transition-all duration-700 ${animationClass}`}>
+      <div ref={ref} className={`min-h-screen py-20 transition-all duration-700 ${animationClass}`}>
         <div className="container mx-auto px-4 max-w-4xl">
           <Link
             to="/projects"

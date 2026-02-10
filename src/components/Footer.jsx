@@ -133,7 +133,7 @@ function Footer() {
                             © {year} Mathys Peypoux. Tous droits réservés.
                         </p>
                         <p className="text-gray-500 text-sm">
-                            Construit avec React + Tailwind
+                            Construit avec React + Laravel
                         </p>
                     </div>
                 </div>
