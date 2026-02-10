@@ -5,6 +5,7 @@ import Home from '../pages/Home'
 import Projects from '../pages/Projects'
 import ProjectDetail from '../pages/ProjectDetail'
 import Contact from '../pages/Contact'
+import About from '../pages/About'
 import NotFound from '../pages/NotFound'
 
 
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: 'projects/:id',
         element: <ProjectDetail />,
+      },
+      {
+        path: 'about',
+        element: <About />,
       },
       {
         path: 'contact',

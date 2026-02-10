@@ -65,6 +65,16 @@ function Navbar() {
               Projets
             </Link>
             <Link
+              to="/about"
+              className={`transition font-medium ${
+                location.pathname.startsWith('/about') 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              À propos
+            </Link>
+            <Link
               to="/contact"
               className={`transition font-medium ${
                 location.pathname === '/contact' 
@@ -101,6 +111,17 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Projets
+            </Link>
+            <Link
+              to="/about"
+              className={`block px-4 py-3 transition ${
+                location.pathname.startsWith('/about') 
+                  ? 'text-white bg-gray-900' 
+                  : 'text-gray-400 hover:bg-gray-900 hover:text-white'
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              À propos
             </Link>
             <Link
               to="/contact"
