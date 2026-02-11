@@ -144,6 +144,7 @@ function Projects() {
                         src={`http://localhost:8000/storage/${project.images[0].path}`}
                         alt={project.images[0].alt_text || project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="h-full flex items-center justify-center text-gray-500 text-sm">

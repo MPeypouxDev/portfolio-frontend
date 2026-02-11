@@ -50,7 +50,7 @@ function ProjectFilters({ technologies, onFilterChange }) {
   const techList = useMemo(() => technologies ?? [], [technologies])
 
   const TECH_LIMIT_MOBILE = 8
-  const TECH_LIMIT_DESKTOP = 14
+  const TECH_LIMIT_DESKTOP = 10
   const techLimit = isDesktop ? TECH_LIMIT_DESKTOP : TECH_LIMIT_MOBILE
 
   const visibleTechnologies = showAllTech ? techList : techList.slice(0, techLimit)

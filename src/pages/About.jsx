@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import useInView from '../hooks/useInView'
 import SEO from '../components/SEO'
 import { useEffect, useState } from 'react'
@@ -136,27 +135,31 @@ function About() {
               </div>
 
               <div className="lg:col-span-8 space-y-6 text-gray-300 leading-relaxed">
-                <p className="text-lg md:text-xl text-gray-400">
-                  Je suis un développeur web en formation (Bac+2), avec une pratique
-                  régulière des technologies modernes du web. Je travaille beaucoup
-                  sur le front-end, et je m’oriente de plus en plus vers des projets
-                  full-stack.
-                </p>
+                <div className=" rounded-2xl border border-gray-800 bg-gradient-to-b from-gray-900/60 to-gray-950/80 p-6 shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+                  <p className="text-lg md:text-xl text-gray-400">
+                    Je suis un développeur web en formation (Bac+2), avec une pratique
+                    régulière des technologies modernes du web. Je travaille beaucoup
+                    sur le front-end, et je m’oriente de plus en plus vers des projets
+                    full-stack.
+                  </p>
+                
 
-                <p className="text-lg md:text-xl text-white/90">
-                  J’aborde le développement avec une approche méthodique : comprendre
-                  les mécanismes, privilégier la lisibilité, structurer proprement
-                  (architecture, BDD, flux) et appliquer des bonnes pratiques au
-                  quotidien.
-                </p>
+                  <p className="text-lg md:text-xl text-white/90 mt-4">
+                    J’aborde le développement avec une approche méthodique : comprendre
+                    les mécanismes, privilégier la lisibilité, structurer proprement
+                    (architecture, BDD, flux) et appliquer des bonnes pratiques au
+                    quotidien.
+                  </p>
 
-                <p className="text-lg md:text-xl text-gray-400">
-                  Je ne me positionne pas comme “expert”, mais comme un développeur
-                  en consolidation. Je sais livrer des applications fonctionnelles,
-                  maintenables et déployables, tout en restant lucide sur les sujets
-                  avancés à approfondir. Mon objectif : intégrer une équipe, apprendre
-                  vite et gagner en autonomie.
-                </p>
+                
+                  <p className="text-lg md:text-xl text-gray-400 mt-4">
+                    Je ne me positionne pas comme “expert”, mais comme un développeur
+                    en consolidation. Je sais livrer des applications fonctionnelles,
+                    maintenables et déployables, tout en restant lucide sur les sujets
+                    avancés à approfondir. Mon objectif : intégrer une équipe, apprendre
+                    vite et gagner en autonomie.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -178,7 +181,7 @@ function About() {
                   {timeline.map((item) => (
                     <li key={`${item.year}-${item.title}`} className="relative pl-12">
                       <div className="absolute left-2 top-2 h-4 w-4 rounded-full border border-gray-700 bg-gray-950" />
-                      <div className="rounded-2xl border border-gray-800 bg-gradient-to-b from-gray-900/60 to-gray-950/80 p-6 shadow-lg shadow-black/40">
+                      <div className="rounded-2xl border border-gray-800 bg-gradient-to-b from-gray-900/60 to-gray-950/80 p-6 shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-30">
                         <div className="flex flex-wrap items-center gap-3">
                           <span className="text-sm text-gray-400 border border-gray-800 rounded-full px-3 py-1">
                             {item.year}
@@ -256,7 +259,7 @@ function About() {
                 return (
                     <div
                         key={tech.id}
-                        className="rounded-2xl border border-gray-800 bg-gray-950/40 p-5 transition hover:scale-[1.02]"
+                        className="rounded-2xl border border-gray-800 bg-gray-950/40 p-5"
                         style={{ boxShadow: `0 0 0 1px ${tech.color}30` }}
                     >
                     <div className="flex items-center justify-between gap-4">

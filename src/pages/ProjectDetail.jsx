@@ -102,20 +102,12 @@ function ProjectDetail() {
               ))}
             </div>
 
-            {(project.start_date || project.end_date) && (
+            {project.date_realisation && (
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400 mb-6">
-                {project.start_date && (
                   <span>
-                    Début :{' '}
-                    {new Date(project.start_date).toLocaleDateString('fr-FR')}
+                    Date de réalisation finale :{' '}
+                    {new Date(project.date_realisation).toLocaleDateString('fr-FR')}
                   </span>
-                )}
-                {project.end_date && (
-                  <span>
-                    Fin :{' '}
-                    {new Date(project.end_date).toLocaleDateString('fr-FR')}
-                  </span>
-                )}
               </div>
             )}
 
@@ -225,7 +217,8 @@ function ProjectDetail() {
                     <img
                       src={`http://localhost:8000/storage/${image.path}`} 
                       alt={image.alt_text || project.title}
-                      className="w-full h-full object-cover" 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </div>
                 ))}
