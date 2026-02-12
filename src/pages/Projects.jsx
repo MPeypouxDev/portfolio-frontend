@@ -6,6 +6,8 @@ import useInView from '../hooks/useInView'
 import ProjectCardSkeleton from '../components/ProjectCardSkeleton'
 import SEO from '../components/SEO'
 import ProjectFilters from '../components/ProjectFilters'
+import config from '../config'
+import ErrorMessage from '../components/ErrorMessage'
 
 function Projects() {
   const [projects, setProjects] = useState([])
@@ -54,6 +56,11 @@ function Projects() {
     }
   }
 
+   const  handleRetry = async () => {
+    setError(null)
+    loadProjects()
+  }
+
   if (loading) {
     return (
       <>
@@ -80,16 +87,8 @@ function Projects() {
       <>
         <SEO title="Erreur | Mathys Peypoux" />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-xl text-red-500 mb-4">{error}</p>
-            <button
-              onClick={loadProjects}
-              className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-            >
-              Réessayer
-            </button>
+          <ErrorMessage message={error} onRetry={handleRetry} />
           </div>
-        </div>
       </>
     )
   }
@@ -141,7 +140,7 @@ function Projects() {
                   <div className="h-48 bg-gray-900 border-b border-gray-800 overflow-hidden">
                     {project.images && project.images.length > 0 ? (
                       <img 
-                        src={`http://localhost:8000/storage/${project.images[0].path}`}
+                        src={`${config.storageUrl}/storage/${project.images[0].path}`}
                         alt={project.images[0].alt_text || project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"

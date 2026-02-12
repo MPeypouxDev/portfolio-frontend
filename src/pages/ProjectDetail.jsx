@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { projectService } from '../services/projectService'
 import useInView from '../hooks/useInView'
 import SEO from '../components/SEO'
+import config from '../config'
+import ErrorMessage from '../components/ErrorMessage'
 
 function ProjectDetail() {
   const { id } = useParams()
@@ -11,8 +13,7 @@ function ProjectDetail() {
   const [error, setError] = useState(null)
   const [ref, _, animationClass] = useInView()
 
-  useEffect(() => {
-    const loadProject = async () => {
+    const loadProject = useCallback(async () => {
       try {
         setLoading(true)
         const response = await projectService.getById(id)
@@ -24,10 +25,17 @@ function ProjectDetail() {
       } finally {
         setLoading(false)
       }
-    }
+    }, [id])
 
-    loadProject()
-  }, [id])
+
+    useEffect(() => {
+       loadProject()
+    }, [loadProject])
+
+    const  handleRetry = () => {
+      setError(null)
+      loadProject()
+    }
 
   if (loading) {
     return (
@@ -45,15 +53,7 @@ function ProjectDetail() {
       <>
       <SEO title="Erreur | Mathys Peypoux" />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-xl text-red-400 mb-4">{error}</p>
-            <Link
-              to="/projects"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition"
-            >
-              ← Retour aux projets
-            </Link>
-          </div>
+          <ErrorMessage message={error} onRetry={handleRetry} />
         </div>
       </>
     )
@@ -215,7 +215,7 @@ function ProjectDetail() {
                     "
                   >
                     <img
-                      src={`http://localhost:8000/storage/${image.path}`} 
+                      src={`${config.storageUrl}/storage/${image.path}`} 
                       alt={image.alt_text || project.title}
                       className="w-full h-full object-cover"
                       loading="lazy"

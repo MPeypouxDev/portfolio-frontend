@@ -3,6 +3,7 @@ import { technologyService } from '../services/technologyService'
 import TechIcon from './TechIcon'
 import useInView from '../hooks/useInView'
 
+
 function TechnologiesSection() {
     const [technologies, setTechnologies] = useState([])
     const [loading, setLoading] = useState(true)
