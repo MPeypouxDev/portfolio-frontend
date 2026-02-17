@@ -17,7 +17,7 @@ function ProjectDetail() {
       try {
         setLoading(true)
         const response = await projectService.getById(id)
-        setProject(response.data)
+        setProject(response.data.data)
         setError(null)
       } catch (err) {
         setError('Projet non trouvé')
