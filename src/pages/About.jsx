@@ -16,7 +16,7 @@ function About() {
     const fetchTechnologies = async () => {
         try {
             const response =  await technologyService.getAll()
-            setTechnologies(response.data)
+            setTechnologies(response.data.data)
         } catch (error) {
             console.error(error)
         } finally {
@@ -73,8 +73,9 @@ function About() {
     'API REST': 'Intermédiaire',
   }
 
-  const displayedTechnologies = technologies
-    .filter((t) => about_tech.has(t.name))
+  const displayedTechnologies = Array.isArray(technologies)
+    ? technologies.filter((t) => about_tech.has(t.name))
+    : []
 
   const LevelPill = ({ level }) => {
   if (!level) return null
