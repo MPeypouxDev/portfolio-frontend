@@ -36,7 +36,7 @@ function Projects() {
   const loadTechnologies = async () => {
     try {
       const response = await technologyService.getAll()
-      setTechnologies(response.data)
+      setTechnologies(response.data.data)
     } catch (err) {
       console.error("Erreur lors du chargement des technologies", err)
     }
@@ -46,7 +46,7 @@ function Projects() {
     try {
       setLoading(true)
       const response = await projectService.getAll()
-      setProjects(response.data)
+      setProjects(response.data.data)
       setError(null)
     } catch (err) {
       setError('Erreur lors du chargement des projets')
