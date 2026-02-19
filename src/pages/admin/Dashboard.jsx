@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 import { contactService, projectService, technologyService } from "../../services"
 
 function Dashboard() {
