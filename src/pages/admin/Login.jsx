@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { authService } from '../services/authService'
-import SEO from "../components/SEO"
+import { authService } from '../../services/authService'
+import SEO from "../../components/SEO"
 import { useNavigate } from "react-router-dom"
-import useInView from '../hooks/useInView'
-import useAuth from '../hooks/useAuth'
+import useInView from '../../hooks/useInView'
+import useAuth from '../../hooks/useAuth'
 
 function Login() {
   const [formData, setFormData] = useState({
