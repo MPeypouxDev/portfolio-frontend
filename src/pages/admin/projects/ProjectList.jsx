@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import projectService from "../../services/"
+import projectService from "../../services/projectService"
 import { useNavigate } from "react-router-dom"
 
 function ProjectList() {
