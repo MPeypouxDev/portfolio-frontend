@@ -61,6 +61,7 @@ export const router = createBrowserRouter([
           { path: '/admin/projects', element: <ProjectList /> },
           { path: '/admin/projects/new', element: <ProjectCreate /> },
           { path: '/admin/projects/:id', element: <ProjectEdit /> },
+          { path: '/admin/technologies/new', element: <TechnologyForm /> },
           { path: '/admin/technologies/:id', element: <TechnologyForm /> },
           { path: '/admin/technologies', element: <TechnologyList /> },
           { path: '/admin/contacts', element: <ContactList /> },
