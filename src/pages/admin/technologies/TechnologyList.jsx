@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import technologyService from "../../../services/technologyService"
+import { technologyService } from "../../../services/technologyService"
 import { useNavigate } from "react-router-dom"
 import SEO from "../../../components/SEO"
 
