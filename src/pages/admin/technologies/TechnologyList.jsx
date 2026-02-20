@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import technologyService from "../../services/"
 import { useNavigate } from "react-router-dom"
+import SEO from "../../components/SEO"
 
 function TechnologyList() {
     const [technologies, setTechnologies] = useState([])
@@ -38,34 +39,37 @@ function TechnologyList() {
     }
 
     return (
-        <div>
-            <button onClick={() => navigate('/admin/technologies/new')}>Nouvelle technologie</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Type</th>
-                        <th>Couleur</th>
-                        <th>Icône</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {technologies.map(technology => (
-                        <tr key={technology.id}>
-                            <td>{technology.name}</td>
-                            <td>{technology.type}</td>
-                            <td>{technology.color}</td>
-                            <td>{technology.icon}</td>
-                            <td>
-                                <button onClick={() => navigate(`/admin/technologies/${technology.id}`)}>Modifier</button>
-                                <button onClick={() => handleDelete(technology.id)}>Supprimer</button>
-                            </td>
+        <>
+        <SEO title="Technologies | Admin" />
+            <div>
+                <button onClick={() => navigate('/admin/technologies/new')}>Nouvelle technologie</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Type</th>
+                            <th>Couleur</th>
+                            <th>Icône</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {technologies.map(technology => (
+                            <tr key={technology.id}>
+                                <td>{technology.name}</td>
+                                <td>{technology.type}</td>
+                                <td>{technology.color}</td>
+                                <td>{technology.icon}</td>
+                                <td>
+                                    <button onClick={() => navigate(`/admin/technologies/${technology.id}`)}>Modifier</button>
+                                    <button onClick={() => handleDelete(technology.id)}>Supprimer</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
     )
 }
 

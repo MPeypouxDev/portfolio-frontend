@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import contactService from "../../services/contactService"
+import SEO from "../../components/SEO"
 
 function ContactList() {
     const [contacts, setContacts] = useState([])
@@ -38,38 +39,41 @@ function ContactList() {
     }
 
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Message</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {contacts.map(contact => (
-                        <tr key={contact.id}>
-                            <td>
-                                {contact.first_name}
-                                {!contact.read_at && (
-                                    <span className="bg-indigo-600 text-white text-xs px-2 py-1 rounded-full">Non lu</span>
-                                )}
-                            </td>
-                            <td>{contact.last_name}</td>
-                            <td>{contact.email}</td>
-                            <td>{contact.message}</td>
-                            <td>
-                                <button onClick={() => navigate(`/admin/contacts/${contact.id}`)}>Voir le message</button>
-                                <button onClick={() => handleDelete(contact.id)}>Supprimer</button>
-                            </td>
+        <>
+        <SEO title="Messages | Admin" />
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {contacts.map(contact => (
+                            <tr key={contact.id}>
+                                <td>
+                                    {contact.first_name}
+                                    {!contact.read_at && (
+                                        <span className="bg-indigo-600 text-white text-xs px-2 py-1 rounded-full">Non lu</span>
+                                    )}
+                                </td>
+                                <td>{contact.last_name}</td>
+                                <td>{contact.email}</td>
+                                <td>{contact.message}</td>
+                                <td>
+                                    <button onClick={() => navigate(`/admin/contacts/${contact.id}`)}>Voir le message</button>
+                                    <button onClick={() => handleDelete(contact.id)}>Supprimer</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
     )
 }
 

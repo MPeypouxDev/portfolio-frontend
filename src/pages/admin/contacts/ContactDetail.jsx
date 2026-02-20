@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { contactService } from '../../services/contactService'
 import ErrorMessage from '../../components/ErrorMessage'
+import SEO from "../../components/SEO"
 
 function ContactDetail() {
     const { id } = useParams()
@@ -64,25 +65,10 @@ function ContactDetail() {
     }
 
     return (
-        <div className="min-h-screen py-20 transition-all duration-700">
-            <div className="container mx-auto px-4 max-w-4xl">
-                <div
-                    className="
-                    rounded-xl p-8 mb-8
-                    bg-gradient-to-b from-gray-900/80 to-gray-950
-                    border border-gray-800
-                    shadow-lg shadow-black/40
-                    "
-                >
-                <h1 className="text-4xl font-bold text-white mb-4">
-                    {contact.email}
-                </h1>
-
-                    <div className="flex gap-2 flex-wrap mb-6">
-                        <p>{contact.first_name} {contact.last_name}</p>
-                        <p>{contact.email}</p>
-                    </div>
-
+        <>
+        <SEO title="Message | Admin" />
+            <div className="min-h-screen py-20 transition-all duration-700">
+                <div className="container mx-auto px-4 max-w-4xl">
                     <div
                         className="
                         rounded-xl p-8 mb-8
@@ -91,17 +77,35 @@ function ContactDetail() {
                         shadow-lg shadow-black/40
                         "
                     >
-                        <h2 className="text-2xl font-bold text-white mb-4">Description</h2>
-                        <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-                        {contact.message}
-                        </p>
-                    </div>
+                    <h1 className="text-4xl font-bold text-white mb-4">
+                        {contact.email}
+                    </h1>
 
-                    <button onClick={() => navigate('/admin/contacts')}>Retour</button>
-                    <button onClick={handleDelete}>Supprimer</button>
+                        <div className="flex gap-2 flex-wrap mb-6">
+                            <p>{contact.first_name} {contact.last_name}</p>
+                            <p>{contact.email}</p>
+                        </div>
+
+                        <div
+                            className="
+                            rounded-xl p-8 mb-8
+                            bg-gradient-to-b from-gray-900/80 to-gray-950
+                            border border-gray-800
+                            shadow-lg shadow-black/40
+                            "
+                        >
+                            <h2 className="text-2xl font-bold text-white mb-4">Description</h2>
+                            <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                            {contact.message}
+                            </p>
+                        </div>
+
+                        <button onClick={() => navigate('/admin/contacts')}>Retour</button>
+                        <button onClick={handleDelete}>Supprimer</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
