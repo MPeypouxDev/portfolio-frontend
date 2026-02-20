@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { technologyService } from '../../services/technologyService'
-import { projectService } from '../../services/projectService'
-import SEO from "../../components/SEO"
+import { technologyService } from '../../../services/technologyService'
+import { projectService } from '../../../services/projectService'
+import SEO from "../../../components/SEO"
 
 function ProjectEdit() {
     const { id } = useParams()

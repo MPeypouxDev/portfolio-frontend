@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
-import { contactService, projectService, technologyService } from "../../services"
+import { technologyService } from "../../services/technologyService"
+import { contactService } from "../../services/contactService"
+import { projectService } from "../../services/projectService"
 import SEO from "../../components/SEO"
 
 function Dashboard() {

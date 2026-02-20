@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { technologyService } from "../../services/technologyService"
+import { technologyService } from "../../../services/technologyService"
 import { useNavigate, useParams } from "react-router-dom"
-import SEO from "../../components/SEO"
+import SEO from "../../../components/SEO"
 
 function TechnologyForm() {
     const [formData, setFormData] = useState({

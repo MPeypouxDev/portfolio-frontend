@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import contactService from "../../services/contactService"
-import SEO from "../../components/SEO"
+import contactService from "../../../services/contactService"
+import SEO from "../../../components/SEO"
 
 function ContactList() {
     const [contacts, setContacts] = useState([])

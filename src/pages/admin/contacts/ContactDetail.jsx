@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { contactService } from '../../services/contactService'
-import ErrorMessage from '../../components/ErrorMessage'
-import SEO from "../../components/SEO"
+import { contactService } from '../../../services/contactService'
+import ErrorMessage from '../../../components/ErrorMessage'
+import SEO from "../../../components/SEO"
 
 function ContactDetail() {
     const { id } = useParams()
