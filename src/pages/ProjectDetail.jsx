@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom'
 import { projectService } from '../services/projectService'
 import useInView from '../hooks/useInView'
 import SEO from '../components/SEO'
-import config from '../config'
 import ErrorMessage from '../components/ErrorMessage'
 
 function ProjectDetail() {
@@ -17,7 +16,7 @@ function ProjectDetail() {
       try {
         setLoading(true)
         const response = await projectService.getById(id)
-        setProject(response.data)
+        setProject(response.data.data)
         setError(null)
       } catch (err) {
         setError('Projet non trouvé')
@@ -215,7 +214,7 @@ function ProjectDetail() {
                     "
                   >
                     <img
-                      src={`${config.storageUrl}/storage/${image.path}`} 
+                      src={image.path}
                       alt={image.alt_text || project.title}
                       className="w-full h-full object-cover"
                       loading="lazy"

@@ -6,7 +6,6 @@ import useInView from '../hooks/useInView'
 import ProjectCardSkeleton from '../components/ProjectCardSkeleton'
 import SEO from '../components/SEO'
 import ProjectFilters from '../components/ProjectFilters'
-import config from '../config'
 import ErrorMessage from '../components/ErrorMessage'
 
 function Projects() {
@@ -36,7 +35,7 @@ function Projects() {
   const loadTechnologies = async () => {
     try {
       const response = await technologyService.getAll()
-      setTechnologies(response.data)
+      setTechnologies(response.data.data)
     } catch (err) {
       console.error("Erreur lors du chargement des technologies", err)
     }
@@ -46,7 +45,7 @@ function Projects() {
     try {
       setLoading(true)
       const response = await projectService.getAll()
-      setProjects(response.data)
+      setProjects(response.data.data)
       setError(null)
     } catch (err) {
       setError('Erreur lors du chargement des projets')
@@ -140,7 +139,7 @@ function Projects() {
                   <div className="h-48 bg-gray-900 border-b border-gray-800 overflow-hidden">
                     {project.images && project.images.length > 0 ? (
                       <img 
-                        src={`${config.storageUrl}/storage/${project.images[0].path}`}
+                        src={project.images[0].path}
                         alt={project.images[0].alt_text || project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"

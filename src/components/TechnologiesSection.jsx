@@ -13,7 +13,7 @@ function TechnologiesSection() {
         try {
             setLoading(true)
             const response = await technologyService.getAll()
-            setTechnologies(response.data)
+            setTechnologies(response.data.data)
         } catch (error) {
             console.error('Erreur:', error)
         } finally {
