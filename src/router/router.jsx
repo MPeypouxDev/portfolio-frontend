@@ -52,12 +52,6 @@ export const router = createBrowserRouter([
     element: <Login />
   },
   {
-    element: <EmptyLayout />,
-    children: [
-      { path: "*", element: <NotFound /> },
-    ],
-  },
-  {
     element: <ProtectedRoute />,
     children: [
       {
@@ -74,5 +68,11 @@ export const router = createBrowserRouter([
         ]
       }
     ]
-  }
+  },
+  {
+    element: <EmptyLayout />,
+    children: [
+      { path: "*", element: <NotFound /> },
+    ],
+  },
 ])

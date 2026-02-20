@@ -19,7 +19,7 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/admin/dashboard')
+      navigate('/admin')
     }
   }, [isAuthenticated])
 
@@ -37,8 +37,8 @@ function Login() {
       setLoading(true)
       setError(null)
       const response = await authService.login(formData)
-      authService.saveToken(response.data.token)
-      navigate('/admin/dashboard')
+      authService.saveToken(response.data.access_token)
+      navigate('/admin')
       setSuccess(true)
       setFormData({
         email: '',

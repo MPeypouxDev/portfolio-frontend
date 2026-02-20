@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 import searching from '/icons/searching.svg'
+import SEO from "../components/SEO"
 
 function NotFound() {
     return (

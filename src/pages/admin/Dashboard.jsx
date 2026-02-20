@@ -20,9 +20,9 @@ function Dashboard() {
                     technologyService.getAll(),
                     contactService.getAll(),
                 ])
-                setProjects(projectsData.data)
-                setTechnologies(techData.data)
-                setContacts(contactsData.data)
+                setProjects(projectsData.data.data ?? projectsData.data)
+                setTechnologies(techData.data.data ?? techData.data)
+                setContacts(contactsData.data.data ?? contactsData.data)
             } catch (err) {
                 setError("Erreur lors du chargement des données")
                 console.error(err)
