@@ -13,6 +13,10 @@ export const contactService = {
         return apiClient.get(`/contacts/${id}`);
     },
 
+    markAsRead(id) {
+        return apiClient.put(`/admin/contacts/${id}/read`);
+    },
+
     delete(id) {
         return apiClient.delete(`/contacts/${id}`);
     },
