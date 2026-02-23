@@ -7,6 +7,7 @@ function ProjectList() {
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [filter, setFilter] = useState('all')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -44,6 +45,17 @@ function ProjectList() {
         return 'bg-gray-500/10 text-gray-400 border-gray-500/30'
     }
 
+    const filters = [
+        { key: 'all', label: 'Tous' },
+        { key: 'published', label: 'Publiés' },
+        { key: 'draft', label: 'Brouillons' },
+        { key: 'archived', label: 'Archivés' },
+    ]
+
+    const filteredProjects = filter === 'all'
+        ? projects
+        : projects.filter(p => p.status === filter)
+
     return (
         <>
             <SEO title="Projets | Admin" />
@@ -56,16 +68,31 @@ function ProjectList() {
                     </div>
                     <button
                         onClick={() => navigate('/admin/projects/new')}
-                        className="
-                            px-4 py-2.5 rounded-lg text-sm font-medium
-                            bg-indigo-600 text-white
-                            hover:bg-indigo-500
-                            shadow-lg shadow-indigo-600/20
-                            transition flex items-center gap-2
-                        "
+                        className="px-4 py-2.5 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-600/20 transition flex items-center gap-2"
                     >
                         + Nouveau projet
                     </button>
+                </div>
+
+                <div className="flex gap-2 mb-6">
+                    {filters.map(f => (
+                        <button
+                            key={f.key}
+                            onClick={() => setFilter(f.key)}
+                            className={`
+                                px-4 py-2 rounded-lg text-xs font-medium border transition
+                                ${filter === f.key
+                                    ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30'
+                                    : 'text-gray-400 border-gray-700 hover:border-gray-600 hover:text-white'
+                                }
+                            `}
+                        >
+                            {f.label}
+                            <span className="ml-2 text-gray-500">
+                                {f.key === 'all' ? projects.length : projects.filter(p => p.status === f.key).length}
+                            </span>
+                        </button>
+                    ))}
                 </div>
 
                 {error && (
@@ -90,12 +117,12 @@ function ProjectList() {
                                 <tr>
                                     <td colSpan={5} className="text-center py-12 text-gray-500 text-sm">Chargement…</td>
                                 </tr>
-                            ) : projects.length === 0 ? (
+                            ) : filteredProjects.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="text-center py-12 text-gray-500 text-sm">Aucun projet</td>
                                 </tr>
                             ) : (
-                                projects.map(project => (
+                                filteredProjects.map(project => (
                                     <tr key={project.id} className="hover:bg-gray-800/30 transition">
                                         <td className="px-6 py-4 text-white text-sm font-medium">{project.title}</td>
                                         <td className="px-6 py-4 text-gray-400 text-sm capitalize">{project.type}</td>
@@ -104,7 +131,7 @@ function ProjectList() {
                                                 {project.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-400 text-sm">{project.realisation_date ?? '—'}</td>
+                                        <td className="px-6 py-4 text-gray-400 text-sm">{project.date_realisation ?? '—'}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button

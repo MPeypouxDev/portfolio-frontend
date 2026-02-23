@@ -7,7 +7,7 @@ function TechnologyForm() {
     const [formData, setFormData] = useState({
         name: '',
         type: '',
-        color: '',
+        color: '#61DAFB',
         icon: '',
     })
     const { id } = useParams()
@@ -46,7 +46,7 @@ function TechnologyForm() {
             const fetchTechnology = async () => {
                 try {
                     const response = await technologyService.getById(id)
-                    setFormData(response.data)
+                    setFormData(response.data.data ?? response.data)
                 } catch (err) {
                     setError("Erreur lors du chargement de la technologie")
                     console.error(err)
@@ -119,13 +119,20 @@ function TechnologyForm() {
                             </select>
                         </div>
 
-                        <div>
+                        <div className="md:col-span-2">
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Couleur *</label>
                             <div className="flex items-center gap-3">
-                                <div
-                                    className="w-9 h-9 rounded-lg border border-gray-700 shrink-0"
-                                    style={{ backgroundColor: formData.color || '#1f2937' }}
-                                />
+                                <label
+                                    className="w-10 h-10 rounded-lg border border-gray-700 shrink-0 cursor-pointer relative overflow-hidden"
+                                    style={{ backgroundColor: formData.color }}
+                                >
+                                    <input
+                                        type="color"
+                                        value={formData.color}
+                                        onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                                    />
+                                </label>
                                 <input
                                     type="text"
                                     name="color"
@@ -138,7 +145,7 @@ function TechnologyForm() {
                             </div>
                         </div>
 
-                        <div>
+                        <div className="md:col-span-2">
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Icône</label>
                             <input
                                 name="icon"

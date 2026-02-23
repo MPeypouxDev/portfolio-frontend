@@ -23,6 +23,7 @@ function ProjectEdit() {
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
     const [imageUrls, setImageUrls] = useState([])
+    const [existingImages, setExistingImages] = useState([])
     const [technologies, setTechnologies] = useState([])
     const navigate = useNavigate()
 
@@ -31,7 +32,7 @@ function ProjectEdit() {
     }
 
     const addImageUrl = () => {
-    setImageUrls([...imageUrls, ''])
+        setImageUrls([...imageUrls, ''])
     }
 
     const removeImageUrl = (index) => {
@@ -44,21 +45,30 @@ function ProjectEdit() {
         setImageUrls(updated)
     }
 
+    const handleDeleteExistingImage = async (imageId) => {
+        try {
+            await imageService.delete(imageId)
+            setExistingImages(existingImages.filter(img => img.id !== imageId))
+        } catch (err) {
+            setError("Erreur lors de la suppression de l'image")
+            console.error(err)
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let projectId = null
         try {
             setLoading(true)
             const response = await projectService.update(id, formData)
-            projectId = response.data.data.id
+            const projectId = response.data.data?.id ?? id
             for (const [index, url] of imageUrls.entries()) {
                 if (url) {
                     await imageService.store({
                         name: `image-${index + 1}`,
                         path: url,
                         alt_text: '',
-                        is_primary: index === 0,
-                        order: index,
+                        is_primary: existingImages.length === 0 && index === 0,
+                        order: existingImages.length + index,
                         project_id: projectId
                     })
                 }
@@ -88,7 +98,7 @@ function ProjectEdit() {
                 const response = await projectService.getById(id)
                 const project = response.data.data ?? response.data
                 setFormData(project)
-                setImageUrls(project.images?.map(img => img.path) ?? [])
+                setExistingImages(project.images ?? [])
             } catch (err) {
                 setError("Erreur lors du chargement du projet")
                 console.error(err)
@@ -193,9 +203,39 @@ function ProjectEdit() {
                             <input type="text" name="demo_url" value={formData.demo_url} onChange={handleChange} className={inputClass} />
                         </div>
 
+                        {existingImages.length > 0 && (
+                            <div className="md:col-span-2">
+                                <label className="block text-xs font-medium text-gray-400 mb-3 uppercase tracking-wide">Images existantes</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {existingImages.map(img => (
+                                        <div key={img.id} className="relative rounded-lg overflow-hidden border border-gray-700">
+                                            <img
+                                                src={img.path}
+                                                alt={img.alt_text || 'image'}
+                                                className="w-full h-36 object-cover"
+                                                onError={(e) => e.target.style.display = 'none'}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteExistingImage(img.id)}
+                                                className="absolute top-2 right-2 p-1.5 rounded-lg bg-rose-500/80 hover:bg-rose-500 text-white transition text-xs"
+                                            >
+                                                X
+                                            </button>
+                                            {img.is_primary && (
+                                                <span className="absolute bottom-2 left-2 text-xs px-2 py-0.5 rounded-full bg-indigo-600/80 text-white">
+                                                    Principale
+                                                </span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         <div className="md:col-span-2">
                             <div className="flex items-center justify-between mb-3">
-                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide">Images du projet</label>
+                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide">Ajouter des images</label>
                                 <button
                                     type="button"
                                     onClick={addImageUrl}
@@ -220,7 +260,7 @@ function ProjectEdit() {
                                                 onClick={() => removeImageUrl(index)}
                                                 className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
                                             >
-                                                ✕
+                                                X
                                             </button>
                                         </div>
                                         {url && (
