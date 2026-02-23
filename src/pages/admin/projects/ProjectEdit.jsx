@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { technologyService } from '../../../services/technologyService'
 import { projectService } from '../../../services/projectService'
+import { imageService } from "../../../services/imageService"
 import SEO from "../../../components/SEO"
 
 function ProjectEdit() {
@@ -11,7 +12,7 @@ function ProjectEdit() {
         description: '',
         type: '',
         status: '',
-        realisation_date: '',
+        date_realisation: '',
         github_url: '',
         demo_url: '',
         is_featured: false,
@@ -21,6 +22,7 @@ function ProjectEdit() {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
+    const [imageUrls, setImageUrls] = useState([])
     const [technologies, setTechnologies] = useState([])
     const navigate = useNavigate()
 
@@ -28,11 +30,39 @@ function ProjectEdit() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
+    const addImageUrl = () => {
+    setImageUrls([...imageUrls, ''])
+    }
+
+    const removeImageUrl = (index) => {
+        setImageUrls(imageUrls.filter((_, i) => i !== index))
+    }
+
+    const handleImageUrlChange = (index, value) => {
+        const updated = [...imageUrls]
+        updated[index] = value
+        setImageUrls(updated)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        let projectId = null
         try {
             setLoading(true)
-            await projectService.update(id, formData)
+            const response = await projectService.update(id, formData)
+            projectId = response.data.data.id
+            for (const [index, url] of imageUrls.entries()) {
+                if (url) {
+                    await imageService.store({
+                        name: `image-${index + 1}`,
+                        path: url,
+                        alt_text: '',
+                        is_primary: index === 0,
+                        order: index,
+                        project_id: projectId
+                    })
+                }
+            }
             setSuccess(true)
             navigate('/admin/projects')
         } catch (err) {
@@ -50,14 +80,18 @@ function ProjectEdit() {
                 setTechnologies(response.data.data ?? response.data)
             } catch (err) {
                 setError("Erreur lors de la récupération des technologies")
+                console.error(err)
             }
         }
         const fetchProject = async () => {
             try {
                 const response = await projectService.getById(id)
-                setFormData(response.data)
+                const project = response.data.data ?? response.data
+                setFormData(project)
+                setImageUrls(project.images?.map(img => img.path) ?? [])
             } catch (err) {
                 setError("Erreur lors du chargement du projet")
+                console.error(err)
             }
         }
         fetchTechnologies()
@@ -141,7 +175,7 @@ function ProjectEdit() {
 
                         <div>
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Date de réalisation *</label>
-                            <input type="date" name="realisation_date" value={formData.realisation_date} onChange={handleChange} required className={inputClass} />
+                            <input type="date" name="date_realisation" value={formData.date_realisation} onChange={handleChange} required className={inputClass} />
                         </div>
 
                         <div>
@@ -157,6 +191,39 @@ function ProjectEdit() {
                         <div>
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">URL Demo</label>
                             <input type="text" name="demo_url" value={formData.demo_url} onChange={handleChange} className={inputClass} />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <div className="flex items-center justify-between mb-3">
+                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide">Images du projet</label>
+                                <button
+                                    type="button"
+                                    onClick={addImageUrl}
+                                    className="px-3 py-1.5 rounded-lg text-xs text-indigo-400 hover:text-white hover:bg-indigo-600/20 border border-indigo-500/30 transition"
+                                >
+                                    + Ajouter une image
+                                </button>
+                            </div>
+                            <div className="space-y-2">
+                                {imageUrls.map((url, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            placeholder="https://res.cloudinary.com/..."
+                                            value={url}
+                                            onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                            className={inputClass}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImageUrl(index)}
+                                            className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="md:col-span-2 flex items-center gap-3">
