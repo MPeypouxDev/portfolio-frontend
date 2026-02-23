@@ -16,6 +16,7 @@ function ContactDetail() {
             setLoading(true)
             const response = await contactService.getById(id)
             setContact(response.data.data ?? response.data)
+            contactService.markAsRead(id)
             setError(null)
         } catch (err) {
             setError("Message non trouvé")
