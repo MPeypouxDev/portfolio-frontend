@@ -196,21 +196,31 @@ function ProjectCreate() {
                             </div>
                             <div className="space-y-2">
                                 {imageUrls.map((url, index) => (
-                                    <div key={index} className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            placeholder="https://res.cloudinary.com/..."
-                                            value={url}
-                                            onChange={(e) => handleImageUrlChange(index, e.target.value)}
-                                            className={inputClass}
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => removeImageUrl(index)}
-                                            className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
-                                        >
-                                            ✕
-                                        </button>
+                                    <div key={index} className="space-y-2">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                placeholder="https://res.cloudinary.com/..."
+                                                value={url}
+                                                onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                                className={inputClass}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => removeImageUrl(index)}
+                                                className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                        {url && (
+                                            <img
+                                                src={url}
+                                                alt={`preview-${index}`}
+                                                className="w-full h-48 object-cover rounded-lg border border-gray-700"
+                                                onError={(e) => e.target.style.display = 'none'}
+                                            />
+                                        )}
                                     </div>
                                 ))}
                             </div>
