@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { technologyService } from '../../../services/technologyService'
 import { projectService } from '../../../services/projectService'
 import SEO from "../../../components/SEO"
+import { imageService } from "../../../services/imageService"
 
 function ProjectCreate() {
     const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ function ProjectCreate() {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
-    const [images, setImages] = useState([])
+    const [imageUrl, setImageUrl] = useState('')
     const [technologies, setTechnologies] = useState([])
     const navigate = useNavigate()
 
@@ -33,8 +34,18 @@ function ProjectCreate() {
         try {
             setLoading(true)
             const response = await projectService.create(formData)
-            const projectId = response.data.id
-            console.log("réponse", response.data)
+            const projectId = response.data.data.id
+            console.log(response.data)
+            if (imageUrl) {
+                await imageService.store({
+                    name: 'image',
+                    path: imageUrl,
+                    alt_text: '',
+                    is_primary: true,
+                    order: 0,
+                    project_id: projectId
+                })
+            }
             setSuccess(true)
             navigate('/admin/projects')
         } catch (err) {
@@ -151,6 +162,11 @@ function ProjectCreate() {
                         <div>
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">URL Demo</label>
                             <input type="text" name="demo_url" value={formData.demo_url} onChange={handleChange} className={inputClass} />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Images du projet</label>
+                            <input type="text" placeholder="https://res.cloudinary.com/..." value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className={inputClass} />
                         </div>
 
                         <div className="md:col-span-2 flex items-center gap-3">
