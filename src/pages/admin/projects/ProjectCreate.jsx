@@ -10,7 +10,7 @@ function ProjectCreate() {
         description: '',
         type: '',
         status: '',
-        realisation_date: '',
+        date_realisation: '',
         github_url: '',
         demo_url: '',
         is_featured: false,
@@ -34,6 +34,7 @@ function ProjectCreate() {
             setLoading(true)
             const response = await projectService.create(formData)
             const projectId = response.data.id
+            console.log("réponse", response.data)
             setSuccess(true)
             navigate('/admin/projects')
         } catch (err) {
@@ -134,7 +135,7 @@ function ProjectCreate() {
 
                         <div>
                             <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Date de réalisation *</label>
-                            <input type="date" name="realisation_date" value={formData.realisation_date} onChange={handleChange} required className={inputClass} />
+                            <input type="date" name="date_realisation" value={formData.date_realisation} onChange={handleChange} required className={inputClass} />
                         </div>
 
                         <div>
