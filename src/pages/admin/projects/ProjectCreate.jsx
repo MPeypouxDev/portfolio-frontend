@@ -21,12 +21,26 @@ function ProjectCreate() {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrls, setImageUrls] = useState([])
     const [technologies, setTechnologies] = useState([])
     const navigate = useNavigate()
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const addImageUrl = () => {
+    setImageUrls([...imageUrls, ''])
+    }
+
+    const removeImageUrl = (index) => {
+        setImageUrls(imageUrls.filter((_, i) => i !== index))
+    }
+
+    const handleImageUrlChange = (index, value) => {
+        const updated = [...imageUrls]
+        updated[index] = value
+        setImageUrls(updated)
     }
 
     const handleSubmit = async (e) => {
@@ -36,15 +50,17 @@ function ProjectCreate() {
             const response = await projectService.create(formData)
             const projectId = response.data.data.id
             console.log(response.data)
-            if (imageUrl) {
-                await imageService.store({
-                    name: 'image',
-                    path: imageUrl,
-                    alt_text: '',
-                    is_primary: true,
-                    order: 0,
-                    project_id: projectId
-                })
+            for (const [index, url] of imageUrls.entries()) {
+                if (url) {
+                    await imageService.store({
+                        name: `image-${index + 1}`,
+                        path: url,
+                        alt_text: '',
+                        is_primary: index === 0,
+                        order: index,
+                        project_id: projectId
+                    })
+                }
             }
             setSuccess(true)
             navigate('/admin/projects')
@@ -164,9 +180,37 @@ function ProjectCreate() {
                             <input type="text" name="demo_url" value={formData.demo_url} onChange={handleChange} className={inputClass} />
                         </div>
 
-                        <div>
-                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Images du projet</label>
-                            <input type="text" placeholder="https://res.cloudinary.com/..." value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className={inputClass} />
+                        <div className="md:col-span-2">
+                            <div className="flex items-center justify-between mb-3">
+                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide">Images du projet</label>
+                                <button
+                                    type="button"
+                                    onClick={addImageUrl}
+                                    className="px-3 py-1.5 rounded-lg text-xs text-indigo-400 hover:text-white hover:bg-indigo-600/20 border border-indigo-500/30 transition"
+                                >
+                                    + Ajouter une image
+                                </button>
+                            </div>
+                            <div className="space-y-2">
+                                {imageUrls.map((url, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            placeholder="https://res.cloudinary.com/..."
+                                            value={url}
+                                            onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                            className={inputClass}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImageUrl(index)}
+                                            className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="md:col-span-2 flex items-center gap-3">
