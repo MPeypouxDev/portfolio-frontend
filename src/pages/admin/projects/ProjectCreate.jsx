@@ -45,11 +45,11 @@ function ProjectCreate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        let projectId = null
         try {
             setLoading(true)
             const response = await projectService.create(formData)
-            const projectId = response.data.data.id
-            console.log(response.data)
+            projectId = response.data.data.id
             for (const [index, url] of imageUrls.entries()) {
                 if (url) {
                     await imageService.store({
@@ -65,8 +65,11 @@ function ProjectCreate() {
             setSuccess(true)
             navigate('/admin/projects')
         } catch (err) {
-            setError("Erreur lors de la création du projet")
-            console.error(err)
+            if (projectId) {
+                await projectService.delete(projectId)
+            }
+                setError("Erreur lors de la création du projet")
+                console.error(err)
         } finally {
             setLoading(false)
         }
