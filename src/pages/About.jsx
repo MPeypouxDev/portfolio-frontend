@@ -112,7 +112,7 @@ function About() {
                 <span className="about-badge border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm">
                   À propos
                 </span>
-                <button className="border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm absolute right-0 top-0" onClick={() => window.print()}>
+                <button className="border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm absolute right-0 top-0 hover:shadow hover:shadow-indigo-500/30 transition-all duration-300" onClick={() => window.print()}>
                     Télécharger mon CV
                 </button>
               </div>
