@@ -7,6 +7,8 @@ import ProjectCardSkeleton from '../components/ProjectCardSkeleton'
 import SEO from '../components/SEO'
 import ProjectFilters from '../components/ProjectFilters'
 import ErrorMessage from '../components/ErrorMessage'
+import { motion } from 'framer-motion'
+import ProjectCard from '../components/ProjectCard'
 
 function Projects() {
   const [projects, setProjects] = useState([])
@@ -123,73 +125,9 @@ function Projects() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="
-                    group rounded-xl overflow-hidden
-                    bg-gradient-to-b from-gray-900/80 to-gray-950
-                    border border-gray-800
-                    shadow-lg shadow-black/40
-                    hover:shadow-xl hover:shadow-indigo-500/10
-                    hover:-translate-y-1
-                    transition-all duration-300
-                  "
-                >
-                  <div className="h-48 bg-gray-900 border-b border-gray-800 overflow-hidden">
-                    {project.images && project.images.length > 0 ? (
-                      <img 
-                        src={project.images[0].path}
-                        alt={project.images[0].alt_text || project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="h-full flex items-center justify-center text-gray-500 text-sm">
-                        Pas d'image
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold text-white mb-2">
-                      {project.title}
-                    </h2>
-
-                    <p className="text-gray-400 mb-4 line-clamp-3">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.technologies?.map((tech) => (
-                        <span
-                          key={tech.id}
-                          className="
-                            text-xs px-2.5 py-1 rounded-full
-                            bg-gray-800 text-gray-300
-                            border border-gray-700
-                          "
-                        >
-                          {tech.name}
-                        </span>
-                      ))}
-                    </div>
-
-                    <Link
-                      to={`/projects/${project.id}`}
-                      className="
-                        inline-flex items-center gap-1
-                        text-indigo-400 font-medium
-                        group-hover:text-indigo-300
-                        transition
-                      "
-                    >
-                      Voir le projet
-                      <span className="transition group-hover:translate-x-1">→</span>
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard key={project.id} project={project} index={index} />
+                ))}
             </div>
           )}
         </div>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (authService.isAuthenticated()) {
@@ -12,6 +13,9 @@ export const useAuth = () => {
                 authService.removeToken()
                 setIsAuthenticated(false)
             })
+            .finally(() => setLoading(false))
+        } else {
+            setLoading(false)
         }
     }, []);
 
@@ -21,5 +25,5 @@ export const useAuth = () => {
         setIsAuthenticated(false);
     };
 
-    return {isAuthenticated, logout}
+    return {isAuthenticated,loading, logout}
 }

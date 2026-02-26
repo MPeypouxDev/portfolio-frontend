@@ -1,0 +1,38 @@
+@media print {
+
+    * {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    html, body, #root {
+    background: white;
+    color: black;
+    animation: none;
+    transition: none;
+    }
+
+    nav {
+        display: none;
+    }
+
+    button {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .cv-contact-print {
+        display: block;
+    }
+
+    .about-badge {
+        display: none;
+    }
+
+    section {
+        page-break-inside: avoid
+    }
+}

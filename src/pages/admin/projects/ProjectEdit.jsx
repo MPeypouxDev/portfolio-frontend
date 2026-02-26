@@ -1,0 +1,357 @@
+import { useState, useEffect } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { technologyService } from '../../../services/technologyService'
+import { projectService } from '../../../services/projectService'
+import { imageService } from "../../../services/imageService"
+import SEO from "../../../components/SEO"
+
+function ProjectEdit() {
+    const { id } = useParams()
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        type: '',
+        status: '',
+        date_realisation: '',
+        github_url: '',
+        demo_url: '',
+        is_featured: false,
+        order: 0,
+        technologies: [],
+    })
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(null)
+    const [imageUrls, setImageUrls] = useState([])
+    const [existingImages, setExistingImages] = useState([])
+    const [technologies, setTechnologies] = useState([])
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const addImageUrl = () => {
+        setImageUrls([...imageUrls, ''])
+    }
+
+    const removeImageUrl = (index) => {
+        setImageUrls(imageUrls.filter((_, i) => i !== index))
+    }
+
+    const handleImageUrlChange = (index, value) => {
+        const updated = [...imageUrls]
+        updated[index] = value
+        setImageUrls(updated)
+    }
+
+    const handleDeleteExistingImage = async (imageId) => {
+        try {
+            await imageService.delete(imageId)
+            setExistingImages(existingImages.filter(img => img.id !== imageId))
+        } catch (err) {
+            setError("Erreur lors de la suppression de l'image")
+            console.error(err)
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            setLoading(true)
+            const response = await projectService.update(id, formData)
+            const projectId = response.data.data?.id ?? id
+            for (const [index, url] of imageUrls.entries()) {
+                if (url) {
+                    await imageService.store({
+                        name: `image-${index + 1}`,
+                        path: url,
+                        alt_text: '',
+                        is_primary: existingImages.length === 0 && index === 0,
+                        order: existingImages.length + index,
+                        project_id: projectId
+                    })
+                }
+            }
+            setSuccess(true)
+            navigate('/admin/projects')
+        } catch (err) {
+            setError("Erreur lors de la modification du projet")
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        const fetchTechnologies = async () => {
+            try {
+                const response = await technologyService.getAll()
+                setTechnologies(response.data.data ?? response.data)
+            } catch (err) {
+                setError("Erreur lors de la récupération des technologies")
+                console.error(err)
+            }
+        }
+        const fetchProject = async () => {
+            try {
+                const response = await projectService.getById(id)
+                const project = response.data.data ?? response.data
+                setFormData(project)
+                setExistingImages(project.images ?? [])
+            } catch (err) {
+                setError("Erreur lors du chargement du projet")
+                console.error(err)
+            }
+        }
+        fetchTechnologies()
+        fetchProject()
+    }, [])
+
+    const inputClass = `
+        w-full rounded-lg px-4 py-2.5
+        bg-gray-900/80 text-gray-200
+        border border-gray-800
+        placeholder-gray-700
+        focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+        focus:border-indigo-500
+        transition text-sm
+    `
+
+    return (
+        <>
+            <SEO title="Modifier le projet | Admin" />
+            <div className="p-8 max-w-3xl">
+
+                <div className="flex items-center gap-4 mb-8">
+                    <button
+                        onClick={() => navigate('/admin/projects')}
+                        className="text-gray-500 hover:text-white transition text-sm"
+                    >
+                        ← Retour
+                    </button>
+                    <div>
+                        <p className="text-indigo-400 text-xs font-medium tracking-widest uppercase mb-1">Administration</p>
+                        <h1 className="text-3xl font-bold text-white">Modifier le projet</h1>
+                    </div>
+                </div>
+
+                {success && (
+                    <div className="mb-6 rounded-lg px-4 py-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm">
+                        Projet modifié avec succès.
+                    </div>
+                )}
+                {error && (
+                    <div className="mb-6 rounded-lg px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="rounded-xl p-8 bg-gray-900/60 border border-gray-800 shadow-lg shadow-black/20"
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Titre *</label>
+                            <input type="text" name="title" value={formData.title} onChange={handleChange} required className={inputClass} />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Description *</label>
+                            <textarea name="description" value={formData.description} onChange={handleChange} required rows={4} className={inputClass} />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Type *</label>
+                            <select name="type" value={formData.type} onChange={handleChange} required className={inputClass}>
+                                <option value="">Sélectionner</option>
+                                <option value="frontend">Frontend</option>
+                                <option value="fullstack">Fullstack</option>
+                                <option value="backend">Backend</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Statut *</label>
+                            <select name="status" value={formData.status} onChange={handleChange} required className={inputClass}>
+                                <option value="">Sélectionner</option>
+                                <option value="draft">Brouillon</option>
+                                <option value="published">Publié</option>
+                                <option value="archived">Archivé</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Date de réalisation *</label>
+                            <input type="date" name="date_realisation" value={formData.date_realisation} onChange={handleChange} required className={inputClass} />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Ordre *</label>
+                            <input type="number" name="order" value={formData.order} onChange={handleChange} required className={inputClass} />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">URL GitHub</label>
+                            <input type="text" name="github_url" value={formData.github_url} onChange={handleChange} className={inputClass} />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">URL Demo</label>
+                            <input type="text" name="demo_url" value={formData.demo_url} onChange={handleChange} className={inputClass} />
+                        </div>
+
+                        {existingImages.length > 0 && (
+                            <div className="md:col-span-2">
+                                <label className="block text-xs font-medium text-gray-400 mb-3 uppercase tracking-wide">Images existantes</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {existingImages.map(img => (
+                                        <div key={img.id} className="relative rounded-lg overflow-hidden border border-gray-700">
+                                            <img
+                                                src={img.path}
+                                                alt={img.alt_text || 'image'}
+                                                className="w-full h-36 object-cover"
+                                                onError={(e) => e.target.style.display = 'none'}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteExistingImage(img.id)}
+                                                className="absolute top-2 right-2 p-1.5 rounded-lg bg-rose-500/80 hover:bg-rose-500 text-white transition text-xs"
+                                            >
+                                                X
+                                            </button>
+                                            {img.is_primary && (
+                                                <span className="absolute bottom-2 left-2 text-xs px-2 py-0.5 rounded-full bg-indigo-600/80 text-white">
+                                                    Principale
+                                                </span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="md:col-span-2">
+                            <div className="flex items-center justify-between mb-3">
+                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide">Ajouter des images</label>
+                                <button
+                                    type="button"
+                                    onClick={addImageUrl}
+                                    className="px-3 py-1.5 rounded-lg text-xs text-indigo-400 hover:text-white hover:bg-indigo-600/20 border border-indigo-500/30 transition"
+                                >
+                                    + Ajouter une image
+                                </button>
+                            </div>
+                            <div className="space-y-2">
+                                {imageUrls.map((url, index) => (
+                                    <div key={index} className="space-y-2">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                placeholder="https://res.cloudinary.com/..."
+                                                value={url}
+                                                onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                                className={inputClass}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => removeImageUrl(index)}
+                                                className="px-3 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500/20 border border-rose-500/30 transition shrink-0"
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                        {url && (
+                                            <img
+                                                src={url}
+                                                alt={`preview-${index}`}
+                                                className="w-full h-48 object-cover rounded-lg border border-gray-700"
+                                                onError={(e) => e.target.style.display = 'none'}
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-2 flex items-center gap-3">
+                            <input
+                                type="checkbox"
+                                name="is_featured"
+                                id="is_featured"
+                                checked={formData.is_featured}
+                                onChange={(e) => setFormData({...formData, is_featured: e.target.checked})}
+                                className="w-4 h-4 accent-indigo-500"
+                            />
+                            <label htmlFor="is_featured" className="text-sm text-gray-400">Projet mis en avant</label>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs font-medium text-gray-400 mb-3 uppercase tracking-wide">Technologies</label>
+                            <div className="flex flex-wrap gap-2">
+                                {technologies.map(tech => {
+                                    const isSelected = formData.technologies?.includes(tech.id)
+                                    return (
+                                        <label
+                                            key={tech.id}
+                                            className={`
+                                                flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm cursor-pointer border transition
+                                                ${isSelected
+                                                    ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30'
+                                                    : 'text-gray-400 border-gray-700 hover:border-gray-600'
+                                                }
+                                            `}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={isSelected}
+                                                onChange={() => {
+                                                    const selected = isSelected
+                                                        ? formData.technologies.filter(tid => tid !== tech.id)
+                                                        : [...(formData.technologies || []), tech.id]
+                                                    setFormData({...formData, technologies: selected})
+                                                }}
+                                                className="hidden"
+                                            />
+                                            {tech.name}
+                                        </label>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="
+                            w-full py-3 rounded-lg font-medium text-sm
+                            bg-indigo-600 text-white
+                            hover:bg-indigo-500
+                            shadow-lg shadow-indigo-600/20
+                            transition
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                            flex items-center justify-center gap-2
+                        "
+                    >
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                </svg>
+                                Modification en cours…
+                            </>
+                        ) : (
+                            'Modifier le projet'
+                        )}
+                    </button>
+                </form>
+            </div>
+        </>
+    )
+}
+
+export default ProjectEdit

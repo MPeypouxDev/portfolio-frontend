@@ -106,17 +106,25 @@ function About() {
           ref={heroRef}
           className={`container mx-auto px-4 pt-28 pb-16 md:pt-36 md:pb-24 transition-all duration-1000 ${heroAnim}`}
         >
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto relative">
             <div className="mb-8 flex flex-col items-center gap-6 text-center">
               <div className="inline-block">
-                <span className="border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm">
+                <span className="about-badge border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm">
                   À propos
                 </span>
+                <button className="border border-gray-700 text-gray-400 px-4 py-2 rounded-full text-sm absolute right-0 top-0 hover:shadow hover:shadow-indigo-500/30 transition-all duration-300" onClick={() => window.print()}>
+                    Télécharger mon CV
+                </button>
               </div>
 
               <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
                 Mathys Peypoux
               </h1>
+              <div className="hidden cv-contact-print text-gray-400 mt-4 space-y-1 text-sm">
+                <p>Développeur Web</p>
+                <p>mathys.peypoux@gmail.com · 06 38 33 43 82</p>
+                <p>github.com/MPeypouxDev · Grenoble</p>
+              </div>
             </div>
           </div>
         </section>

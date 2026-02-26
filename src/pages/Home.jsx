@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom'
 import TechnologiesSection from '../components/TechnologiesSection'
 import useInView from '../hooks/useInView'
+import useCounter from '../hooks/useCounter'
 import SEO from '../components/SEO'
 
 function Home() {
   const [homeRef, _, homeAnimationClass] = useInView()
-  const [statsRef, __, statsAnimationClass] = useInView()
+  const [statsRef, statsInView, statsAnimationClass] = useInView()
+
+  const projectsCount = useCounter(4, 2000, statsInView)
+  const technologiesCount = useCounter(3, 1500, statsInView)
+
 
   return (
     <>
@@ -73,7 +78,7 @@ function Home() {
                 hover:shadow-xl hover:shadow-indigo-500/10
                 transition-all duration-300
               ">
-                <div className="text-5xl font-bold text-white mb-2">4+</div>
+                <div className="text-5xl font-bold text-white mb-2">{projectsCount}+</div>
                 <div className="text-gray-400">Projets réalisés</div>
               </div>
 
@@ -85,7 +90,7 @@ function Home() {
                 hover:shadow-xl hover:shadow-indigo-500/10
                 transition-all duration-300
               ">
-                <div className="text-5xl font-bold text-white mb-2">3+</div>
+                <div className="text-5xl font-bold text-white mb-2">{technologiesCount}+</div>
                 <div className="text-gray-400">Technologies maîtrisées</div>
               </div>
 

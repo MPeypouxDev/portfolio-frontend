@@ -7,7 +7,6 @@ function useInView(options = {}) {
     useEffect(() => {
         const currentRef = ref.current
         const observer = new IntersectionObserver(([entry]) => {
-            console.log("Home section visible:", entry.isIntersecting);
             setIsInView(entry.isIntersecting)
         }, options)
 
