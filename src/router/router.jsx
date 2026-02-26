@@ -1,12 +1,13 @@
+import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from '../components/Layout'
 import EmptyLayout from '../components/EmptyLayout'
 import Home from '../pages/Home'
-import Projects from '../pages/Projects'
-import ProjectDetail from '../pages/ProjectDetail'
-import Contact from '../pages/Contact'
-import About from '../pages/About'
-import NotFound from '../pages/NotFound'
+const Projects = React.lazy(() => import('../pages/Projects'))
+const ProjectDetail = React.lazy(() => import('../pages/ProjectDetail'))
+const Contact = React.lazy(() => import('../pages/Contact'))
+const About = React.lazy(() => import('../pages/About'))
+const NotFound = React.lazy(() => import('../pages/NotFound'))
 import AdminLayout from '../components/admin/AdminLayout'
 import ProtectedRoute from '../components/ProtectedRoute'
 import Dashboard from '../pages/admin/Dashboard'
