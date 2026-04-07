@@ -169,3 +169,63 @@ Ensure `php artisan storage:link` has been run on the backend and that `VITE_API
 
 **Blank page after build**
 Check that `VITE_API_URL` is defined in the production environment variables.
+git p
+
+
+src/
+├── components/              # Composants réutilisables
+│   ├── admin/              # Dashboard admin
+│   │   ├── AdminLayout.jsx
+│   │   ├── Sidebar.jsx
+│   │   └── StatsCard.jsx
+│   ├── Background.jsx      # Fond animé
+│   ├── EmptyLayout.jsx     # Layout vide (auth)
+│   ├── ErrorMessage.jsx    # Affichage erreurs
+│   ├── Footer.jsx          # Pied de page
+│   ├── Layout.jsx          # Layout principal
+│   ├── Navbar.jsx          # Navigation
+│   ├── ProjectCardSkeleton.jsx  # Loader
+│   ├── ProjectFilters.jsx  # Filtres projets
+│   ├── ScrollToTop.jsx     # Scroll auto
+│   ├── SEO.jsx            # Meta tags
+│   ├── TechIcon.jsx       # Icône technologie
+│   └── TechnologiesSection.jsx
+│
+├── pages/                  # Pages principales
+│   ├── admin/             # Pages admin
+│   │   ├── Dashboard.jsx
+│   │   ├── projects/
+│   │   │   ├── ProjectList.jsx
+│   │   │   ├── ProjectCreate.jsx
+│   │   │   └── ProjectEdit.jsx
+│   │   ├── technologies/
+│   │   │   └── TechnologyList.jsx
+│   │   └── contacts/
+│   │       └── ContactList.jsx
+│   ├── About.jsx          # À propos + CV
+│   ├── Contact.jsx        # Formulaire
+│   ├── Home.jsx           # Accueil
+│   ├── NotFound.jsx       # 404
+│   ├── ProjectDetail.jsx  # Détail projet
+│   └── Projects.jsx       # Liste projets
+│
+├── services/              # Appels API
+│   ├── apiClient.js      # Config Axios
+│   ├── authService.js    # Login/Logout
+│   ├── contactService.js # Contact
+│   ├── projectService.js # Projets
+│   └── technologyService.js
+│
+├── hooks/                 # Logique réutilisable
+│   ├── useAuth.js        # Gestion auth
+│   ├── useInView.js      # Animations scroll
+│   └── useDocumentTitle.js  # SEO
+│
+├── router/                # Configuration routes
+│   └── router.jsx
+│
+├── styles/                # Styles globaux
+│   ├── index.css
+│   └── print.css         # Mode impression
+│
+└── config.js             # Configuration app

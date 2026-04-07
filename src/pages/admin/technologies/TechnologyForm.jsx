@@ -17,7 +17,19 @@ function TechnologyForm() {
     const navigate = useNavigate()
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        const { name, value, type, files } = e.target;
+        
+        if (type === 'file' && files && files[0]) {
+            setFormData({ 
+                ...formData, 
+                [name]: files[0].name
+            });
+        } else {
+            setFormData({ 
+                ...formData, 
+                [name]: value 
+            });
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -54,7 +66,7 @@ function TechnologyForm() {
             }
             fetchTechnology()
         }
-    }, [])
+    }, [id])
 
     const inputClass = `
         w-full rounded-lg px-4 py-2.5
@@ -146,10 +158,13 @@ function TechnologyForm() {
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">Icône</label>
+                            <label className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                                Icône
+                            </label>
                             <input
                                 name="icon"
                                 type="file"
+                                accept=".svg"
                                 onChange={handleChange}
                                 className="
                                     w-full rounded-lg px-4 py-2.5
@@ -163,6 +178,14 @@ function TechnologyForm() {
                                     transition text-sm cursor-pointer
                                 "
                             />
+                            <p className="text-gray-500 text-xs mt-2">
+                                Le fichier doit être placé dans <code className="px-1 py-0.5 bg-gray-800 rounded text-indigo-400">public/icons/</code>
+                            </p>
+                            {formData.icon && (
+                                <p className="text-gray-400 text-xs mt-1">
+                                    Fichier sélectionné : <span className="text-white">{formData.icon}</span>
+                                </p>
+                            )}
                         </div>
                     </div>
 
