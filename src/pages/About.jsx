@@ -29,14 +29,14 @@ function About() {
 
   const timeline = [
     {
-      year: '2026',
-      title: 'Projets full-stack & portfolio',
+      year: '2026-2027',
+      title: 'Bac+3 IA & Big Data - Intelligence Artificielle & Big Data',
       description:
-        'Développement de projets concrets avec API, BDD relationnelle et déploiement.',
+        'Formation orientée Intelligence Artificielle, Big Data et développement logiciel avancé.',
     },
     {
-      year: '2025',
-      title: 'Formation DWWM (Bac+2) — Développeur Web & Web Mobile',
+      year: '2025-2026',
+      title: 'Formation DWWM (Bac+2) - Développeur Web & Web Mobile',
       description:
         'Montée en compétences front-end & back-end, bonnes pratiques, architecture et travail en équipe.',
     },
@@ -49,28 +49,36 @@ function About() {
       year: '2025–2026',
       note: 'Bac+2 — développement front, back, bases de données et déploiement.',
     },
+    {
+      title: 'Intelligence Artificielle & Big Data',
+      org: 'ESGI Grenoble',
+      year: '2026-2027',
+      note: 'Bac+3 - Machine Learning, Big Data.',
+    }
   ]
 
   const about_tech = new Set([
     'React',
     'JavaScript',
-    'Tailwind CSS',
     'Laravel',
     'PHP',
     'MySQL',
     'Git',
     'API REST',
+    'Java',
+    'Spring Boot',
   ])
 
   const about_levels = {
-    React: 'Débutant',
+    React: 'Intermédiaire',
     JavaScript: 'Intermédiaire',
-    'Tailwind CSS': 'Débutant',
-    Laravel: 'Débutant',
+    Laravel: 'Intermédiaire',
     PHP: 'Intermédiaire',
     MySQL: 'Intermédiaire',
     Git: 'Intermédiaire',
     'API REST': 'Intermédiaire',
+    Java: 'Intermédiaire',
+    'Spring Boot': 'Intermédiaire',
   }
 
   const displayedTechnologies = Array.isArray(technologies)
