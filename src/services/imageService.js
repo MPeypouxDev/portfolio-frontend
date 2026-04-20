@@ -9,7 +9,7 @@ export const imageService = {
         return apiClient.post('/images', imageData);
     },
 
-    delete(path) {
-        return apiClient.delete('/images', {data: { path }})
+    delete(id) {
+        return apiClient.delete(`/images/${id}`)
     }
 }
