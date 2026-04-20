@@ -94,9 +94,26 @@ function ProjectEdit() {
             }
         }
         const fetchProject = async () => {
+            console.log('fetchProject lancé')
             try {
                 const response = await projectService.getById(id)
                 const project = response.data.data ?? response.data
+
+                if (project.date_realisation) {
+                    const parts = project.date_realisation.split('/')
+                    if (parts.length === 3) {
+                        project.date_realisation = `${parts[2]}-${parts[1]}-${parts[0]}`
+                    }
+                }
+
+                console.log('date convertie:', project.date_realisation)
+
+                if (project.technologies) {
+                    project.technologies = project.technologies.map(t =>
+                        typeof t === 'object' ? t.id : t
+                    )
+                }
+
                 setFormData(project)
                 setExistingImages(project.images ?? [])
             } catch (err) {
