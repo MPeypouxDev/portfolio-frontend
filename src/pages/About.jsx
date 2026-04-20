@@ -54,7 +54,7 @@ function About() {
       org: 'ESGI Grenoble',
       year: '2026-2027',
       note: 'Bac+3 - Machine Learning, Big Data.',
-    }
+    },
   ]
 
   const about_tech = new Set([
